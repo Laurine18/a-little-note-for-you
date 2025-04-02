@@ -24,16 +24,22 @@ export default function MessageExchange() {
     fetchLastMessage();
   }, []);
 
-  const handleSubmit = async () => {
-    if (message.trim() === "") return;
+  const handleSubmit = async (e) => {
+  e.preventDefault(); 
 
-    await addDoc(collection(db, "messages"), {
-      text: message,
-      timestamp: serverTimestamp(),
-    });
+  console.log("Submit button clicked!");  
 
+  if (message.trim() === "") return;
+
+  try {
+    localStorage.setItem("lastMessage", message);
+
+    console.log("Message saved!");
     setSubmitted(true);
-  };
+  } catch (error) {
+    console.error("Error saving message:", error);
+  }
+};
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh", backgroundColor: "#f3f4f6", padding: "20px" }}>
