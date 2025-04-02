@@ -8,9 +8,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "firebase": "^10.7.1",
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest",
-    "framer-motion": "latest"
+    "react-dom": "latest"
   }
 }
