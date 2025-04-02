@@ -1,19 +1,37 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import db from "../firebase"; 
+import { collection, addDoc, getDocs, orderBy, query, serverTimestamp } from "firebase/firestore";
 
 export default function MessageExchange() {
   const [message, setMessage] = useState("");
-  const [previousMessage, setPreviousMessage] = useState("...");
+  const [previousMessage, setPreviousMessage] = useState("Loading...");
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    const storedMessage = localStorage.getItem("lastMessage") || "No message yet!";
-    setPreviousMessage(storedMessage);
+    async function fetchLastMessage() {
+      const messagesRef = collection(db, "messages");
+      const q = query(messagesRef, orderBy("timestamp", "desc"));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        setPreviousMessage(querySnapshot.docs[0].data().text);
+      } else {
+        setPreviousMessage("No messages yet! Be the first.");
+      }
+    }
+
+    fetchLastMessage();
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (message.trim() === "") return;
-    localStorage.setItem("lastMessage", message);
+
+    await addDoc(collection(db, "messages"), {
+      text: message,
+      timestamp: serverTimestamp(),
+    });
+
     setSubmitted(true);
   };
 
