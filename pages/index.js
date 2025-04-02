@@ -34,7 +34,7 @@ export default function MessageExchange() {
                 marginBottom: "10px",
                 border: "1px solid #ddd",
                 borderRadius: "6px",
-                fontFamily: "'Roboto', sans-serif",  // Apply the custom font
+                fontFamily: "'Roboto', sans-serif",
               }}
             />
             <button onClick={handleSubmit} style={{
@@ -45,7 +45,7 @@ export default function MessageExchange() {
               borderRadius: '6px',
               border: 'none',
               cursor: 'pointer',
-              fontFamily: "'Roboto', sans-serif",  // Apply the custom font
+              fontFamily: "'Roboto', sans-serif",
             }}>
               Submit
             </button>
